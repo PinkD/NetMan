@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NetMan</string>
+    <string name="wifi">WIFI</string>
+    <string name="cellular">Cellular</string>
+</resources>
