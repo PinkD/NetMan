@@ -1,19 +1,19 @@
 package moe.pinkd.netman.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import moe.pinkd.netman.R;
-import moe.pinkd.netman.ui.adapter.AppInfoAdapter;
+import moe.pinkd.netman.ui.adapter.PackageInfoAdapter;
 import moe.pinkd.netman.util.PackageUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private AppInfoAdapter appInfoAdapter;
+    private PackageInfoAdapter packageInfoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        appInfoAdapter = new AppInfoAdapter(PackageUtil.getApplicationInfo());
-        appInfoAdapter.setOnItemClickListener(new AppInfoAdapter.OnItemClickListener() {
+        packageInfoAdapter = new PackageInfoAdapter(PackageUtil.getPackageInfo());
+        packageInfoAdapter.setOnItemClickListener(new PackageInfoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(MainActivity.this, position + appInfoAdapter.getItemAt(position).packageName, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("packageInfo", packageInfoAdapter.getItemAt(position)));
             }
         });
-        recyclerView.setAdapter(appInfoAdapter);
-        appInfoAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(packageInfoAdapter);
+        packageInfoAdapter.notifyDataSetChanged();
     }
 
 

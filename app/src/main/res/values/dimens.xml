@@ -2,4 +2,6 @@
 <resources>
     <dimen name="item_height_default">56dp</dimen>
     <dimen name="item_margin_default">8dp</dimen>
+    <dimen name="detail_height">72dp</dimen>
+    <dimen name="detail_text_size">18sp</dimen>
 </resources>

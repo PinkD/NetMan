@@ -38,7 +38,15 @@ public class PackageUtil {
         return packageManager == null ? null : applicationInfo.loadIcon(packageManager);
     }
 
+    public static Drawable loadIcon(PackageInfo packageInfo) {
+        return packageManager == null ? null : packageInfo.applicationInfo.loadIcon(packageManager);
+    }
+
     public static String loadLabel(ApplicationInfo applicationInfo) {
         return packageManager == null ? null : applicationInfo.loadLabel(packageManager).toString();
+    }
+
+    public static String loadLabel(PackageInfo packageInfo) {
+        return packageManager == null ? null : packageInfo.applicationInfo.loadLabel(packageManager).toString();
     }
 }

@@ -1,6 +1,6 @@
 package moe.pinkd.netman.ui.adapter;
 
-import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,15 +19,15 @@ import moe.pinkd.netman.util.PackageUtil;
  * Application Information Adapter
  */
 
-public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoViewHolder> {
-    private static final String TAG = "AppInfoAdapter";
+public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.AppInfoViewHolder> {
+    private static final String TAG = "PackageInfoAdapter";
 
-    private List<ApplicationInfo> applicationInfos;
+    private List<PackageInfo> packageInfos;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public AppInfoAdapter(List<ApplicationInfo> applicationInfos) {
-        this.applicationInfos = applicationInfos;
+    public PackageInfoAdapter(List<PackageInfo> packageInfos) {
+        this.packageInfos = packageInfos;
     }
 
     @Override
@@ -42,9 +42,9 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
     }
 
     private void bindContent(AppInfoViewHolder holder, int position) {
-        Log.d(TAG, "bindContent: " + applicationInfos.get(position));
-        holder.label.setText(PackageUtil.loadLabel(applicationInfos.get(position)));
-        holder.icon.setImageDrawable(PackageUtil.loadIcon(applicationInfos.get(position)));
+        Log.d(TAG, "bindContent: " + packageInfos.get(position).applicationInfo.uid);
+        holder.label.setText(PackageUtil.loadLabel(packageInfos.get(position)));
+        holder.icon.setImageDrawable(PackageUtil.loadIcon(packageInfos.get(position)));
     }
 
     private void bindListener(final AppInfoViewHolder holder) {
@@ -66,18 +66,18 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
         }
     }
 
-    public List<ApplicationInfo> getItems() {
-        return applicationInfos;
+    public List<PackageInfo> getItems() {
+        return packageInfos;
     }
 
-    public ApplicationInfo getItemAt(int position) {
-        return applicationInfos.get(position);
+    public PackageInfo getItemAt(int position) {
+        return packageInfos.get(position);
     }
 
 
     @Override
     public int getItemCount() {
-        return applicationInfos.size();
+        return packageInfos.size();
     }
 
     class AppInfoViewHolder extends RecyclerView.ViewHolder {

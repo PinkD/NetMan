@@ -13,30 +13,14 @@
         android:layout_margin="@dimen/item_margin_default"
         />
 
-    <Switch
-        android:id="@+id/item_app_information_switch_wifi"
-        android:layout_width="@dimen/item_height_default"
-        android:layout_height="@dimen/item_height_default"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/item_margin_default"
-        />
-
-    <Switch
-        android:id="@+id/item_app_information_switch_cellular"
-        android:layout_width="@dimen/item_height_default"
-        android:layout_height="@dimen/item_height_default"
-        android:layout_toStartOf="@id/item_app_information_switch_wifi"
-        android:layout_margin="@dimen/item_margin_default"
-        />
 
     <TextView
         android:id="@+id/item_app_information_package_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/item_height_default"
-        android:layout_marginStart="@dimen/item_margin_default"
+        android:layout_margin="@dimen/item_margin_default"
         android:layout_toEndOf="@id/item_app_information_icon"
-        android:layout_toStartOf="@id/item_app_information_switch_cellular"
         android:gravity="start|center_vertical"
-
         />
+    
 </RelativeLayout>

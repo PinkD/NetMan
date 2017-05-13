@@ -2,4 +2,7 @@
     <string name="app_name">NetMan</string>
     <string name="wifi">WIFI</string>
     <string name="cellular">Cellular</string>
+    <string name="vpn">VPN</string>
+    <string name="package_name">moe.pinkd.neyman</string>
+    <string name="version_code">1.0.1</string>
 </resources>

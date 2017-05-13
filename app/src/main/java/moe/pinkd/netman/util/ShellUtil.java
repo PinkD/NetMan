@@ -20,7 +20,7 @@ public class ShellUtil {
         if (Shell.SU.available()) {
             return Shell.SU.run(commands);
         } else {
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             result.add("SU not available");
             return result;
         }

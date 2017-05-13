@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="moe.pinkd.netman.ui.activity.DetailActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detail_height"
+        >
+
+        <ImageView
+            android:id="@+id/detail_app_icon"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/item_margin_default"
+            android:src="@mipmap/ic_launcher"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/detail_app_icon"
+            android:orientation="vertical"
+            android:weightSum="10"
+            >
+
+            <TextView
+                android:id="@+id/detail_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/item_margin_default"
+                android:layout_marginTop="@dimen/item_margin_default"
+                android:layout_weight="4"
+                android:gravity="start|center_vertical"
+                android:text="@string/app_name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/detail_text_size"
+                />
+
+            <TextView
+                android:id="@+id/detail_app_package_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/item_margin_default"
+                android:layout_weight="3"
+                android:gravity="start|center_vertical"
+                android:text="@string/package_name"
+                />
+
+            <TextView
+                android:id="@+id/detail_app_version_code"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/item_margin_default"
+                android:layout_weight="3"
+                android:gravity="start|center_vertical"
+                android:text="@string/version_code"
+                />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_default"
+        >
+
+        <ImageView
+            android:id="@+id/detail_permission_cellular_icon"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_margin="@dimen/item_margin_default"
+            android:src="@drawable/ic_cellular"
+            />
+
+        <Switch
+            android:id="@+id/detail_permission_cellular_switch"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/item_margin_default"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_margin="@dimen/item_margin_default"
+            android:layout_toEndOf="@id/detail_permission_cellular_icon"
+            android:layout_toStartOf="@id/detail_permission_cellular_switch"
+            android:gravity="start|center_vertical"
+            android:text="@string/cellular"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_default"
+        >
+
+        <ImageView
+            android:id="@+id/detail_permission_wifi_icon"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_margin="@dimen/item_margin_default"
+            android:src="@drawable/ic_wifi"
+            />
+
+        <Switch
+            android:id="@+id/detail_permission_wifi_switch"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/item_margin_default"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_margin="@dimen/item_margin_default"
+            android:layout_toEndOf="@id/detail_permission_wifi_icon"
+            android:layout_toStartOf="@id/detail_permission_wifi_switch"
+            android:gravity="start|center_vertical"
+            android:text="@string/wifi"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_default"
+        >
+
+        <ImageView
+            android:id="@+id/detail_permission_vpn_icon"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_margin="@dimen/item_margin_default"
+            android:src="@drawable/ic_vpn"
+            />
+
+        <Switch
+            android:id="@+id/detail_permission_vpn_switch"
+            android:layout_width="@dimen/item_height_default"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/item_margin_default"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height_default"
+            android:layout_margin="@dimen/item_margin_default"
+            android:layout_toEndOf="@id/detail_permission_vpn_icon"
+            android:layout_toStartOf="@id/detail_permission_vpn_switch"
+            android:gravity="start|center_vertical"
+            android:text="@string/vpn"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
