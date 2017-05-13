@@ -42,7 +42,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     private void bindContent(AppInfoViewHolder holder, int position) {
-        Log.d(TAG, "bindContent: " + packageInfos.get(position).applicationInfo.uid);
+        Log.d(TAG, "bindContent--->" + packageInfos.get(position).packageName + ": " + packageInfos.get(position).applicationInfo.uid);
         holder.label.setText(PackageUtil.loadLabel(packageInfos.get(position)));
         holder.icon.setImageDrawable(PackageUtil.loadIcon(packageInfos.get(position)));
     }

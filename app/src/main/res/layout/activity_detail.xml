@@ -22,10 +22,28 @@
             android:src="@mipmap/ic_launcher"
             />
 
+        <Switch
+            android:id="@+id/detail_permission_all_switch"
+            android:layout_width="@dimen/detail_height"
+            android:layout_height="@dimen/detail_height"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/item_margin_default"
+            />
+
+        <TextView
+            android:id="@+id/detail_permission_all_text"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/detail_height"
+            android:layout_toStartOf="@id/detail_permission_all_switch"
+            android:gravity="center_vertical"
+            android:text="@string/all"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/detail_app_icon"
+            android:layout_toStartOf="@id/detail_permission_all_text"
             android:orientation="vertical"
             android:weightSum="10"
             >
@@ -62,7 +80,6 @@
                 android:gravity="start|center_vertical"
                 android:text="@string/version_code"
                 />
-
 
         </LinearLayout>
 

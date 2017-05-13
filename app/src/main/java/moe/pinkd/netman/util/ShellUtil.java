@@ -26,6 +26,13 @@ public class ShellUtil {
         }
     }
 
+    public static List<String> init() {
+        return SURun(new String[]{
+                "iptables -t filter -N net_man",
+                "iptables -t filter -A OUTPUT -j net_man"
+        });
+    }
+
     public static String shellRun(String command) {
         Runtime runtime = Runtime.getRuntime();
         try {

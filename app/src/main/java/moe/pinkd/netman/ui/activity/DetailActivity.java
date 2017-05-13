@@ -11,8 +11,13 @@ import android.widget.Toast;
 
 import moe.pinkd.netman.R;
 import moe.pinkd.netman.util.PackageUtil;
+import moe.pinkd.netman.util.ShellUtil;
 
 public class DetailActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+    private Switch all;
+    private Switch cellular;
+    private Switch wifi;
+    private Switch vpn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +36,11 @@ public class DetailActivity extends AppCompatActivity implements CompoundButton.
         name.setText(PackageUtil.loadLabel(packageInfo));
         packageName.setText(packageInfo.packageName);
         versionCode.setText(String.valueOf(packageInfo.versionName));
-        Switch cellular = (Switch) findViewById(R.id.detail_permission_cellular_switch);
-        Switch wifi = (Switch) findViewById(R.id.detail_permission_wifi_switch);
-        Switch vpn = (Switch) findViewById(R.id.detail_permission_vpn_switch);
+        all = (Switch) findViewById(R.id.detail_permission_all_switch);
+        cellular = (Switch) findViewById(R.id.detail_permission_cellular_switch);
+        wifi = (Switch) findViewById(R.id.detail_permission_wifi_switch);
+        vpn = (Switch) findViewById(R.id.detail_permission_vpn_switch);
+        all.setOnCheckedChangeListener(this);
         cellular.setOnCheckedChangeListener(this);
         wifi.setOnCheckedChangeListener(this);
         vpn.setOnCheckedChangeListener(this);
@@ -43,16 +50,57 @@ public class DetailActivity extends AppCompatActivity implements CompoundButton.
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
+            case R.id.detail_permission_all_switch:
+                Toast.makeText(this, R.string.all, Toast.LENGTH_SHORT).show();
+                if (buttonView.isSelected()) {
+                    enableAll();
+                } else {
+                    disableAll();
+                }
+                break;
             case R.id.detail_permission_cellular_switch:
                 Toast.makeText(this, R.string.cellular, Toast.LENGTH_SHORT).show();
+                if (buttonView.isSelected()) {
+                    enableAll();
+                } else {
+                    disableAll();
+                }
+                buttonView.setChecked(buttonView.isChecked());
                 break;
             case R.id.detail_permission_wifi_switch:
                 Toast.makeText(this, R.string.wifi, Toast.LENGTH_SHORT).show();
+                if (buttonView.isSelected()) {
+                    enableAll();
+                } else {
+                    disableAll();
+                }
+                buttonView.setChecked(buttonView.isChecked());
                 break;
             case R.id.detail_permission_vpn_switch:
                 Toast.makeText(this, R.string.vpn, Toast.LENGTH_SHORT).show();
+                if (buttonView.isSelected()) {
+                    //TODO enable all
+                    enableAll();
+                } else {
+                    //TODO disable all
+                    disableAll();
+                }
+                buttonView.setChecked(buttonView.isChecked());
                 break;
 
         }
+    }
+
+    private void enableAll() {
+        cellular.setChecked(true);
+        wifi.setChecked(true);
+        vpn.setChecked(true);
+        ShellUtil.SURun(new String[]{"iptables -t filter -m owner --owner"});
+    }
+
+    private void disableAll() {
+        cellular.setChecked(false);
+        wifi.setChecked(false);
+        vpn.setChecked(false);
     }
 }
