@@ -24,7 +24,7 @@
 
         <Switch
             android:id="@+id/detail_permission_all_switch"
-            android:layout_width="@dimen/detail_height"
+            android:layout_width="@dimen/item_height_default"
             android:layout_height="@dimen/detail_height"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/item_margin_default"
@@ -52,7 +52,6 @@
                 android:id="@+id/detail_app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/item_margin_default"
                 android:layout_marginTop="@dimen/item_margin_default"
                 android:layout_weight="4"
                 android:gravity="start|center_vertical"
@@ -65,7 +64,6 @@
                 android:id="@+id/detail_app_package_name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/item_margin_default"
                 android:layout_weight="3"
                 android:gravity="start|center_vertical"
                 android:text="@string/package_name"
@@ -75,7 +73,6 @@
                 android:id="@+id/detail_app_version_code"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/item_margin_default"
                 android:layout_weight="3"
                 android:gravity="start|center_vertical"
                 android:text="@string/version_code"
@@ -111,7 +108,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/item_height_default"
-            android:layout_margin="@dimen/item_margin_default"
             android:layout_toEndOf="@id/detail_permission_cellular_icon"
             android:layout_toStartOf="@id/detail_permission_cellular_switch"
             android:gravity="start|center_vertical"
@@ -144,7 +140,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/item_height_default"
-            android:layout_margin="@dimen/item_margin_default"
             android:layout_toEndOf="@id/detail_permission_wifi_icon"
             android:layout_toStartOf="@id/detail_permission_wifi_switch"
             android:gravity="start|center_vertical"
@@ -177,7 +172,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/item_height_default"
-            android:layout_margin="@dimen/item_margin_default"
             android:layout_toEndOf="@id/detail_permission_vpn_icon"
             android:layout_toStartOf="@id/detail_permission_vpn_switch"
             android:gravity="start|center_vertical"

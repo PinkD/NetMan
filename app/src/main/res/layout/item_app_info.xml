@@ -15,7 +15,7 @@
 
 
     <TextView
-        android:id="@+id/item_app_information_package_name"
+        android:id="@+id/item_app_information_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/item_height_default"
         android:layout_margin="@dimen/item_margin_default"

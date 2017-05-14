@@ -1,7 +1,11 @@
 <component name="ProjectDictionaryState">
   <dictionary name="PinkD">
     <words>
+      <w>addr</w>
+      <w>ifconfig</w>
+      <w>inet</w>
       <w>iptables</w>
+      <w>wlan</w>
     </words>
   </dictionary>
 </component>

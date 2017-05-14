@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import moe.pinkd.netman.util.ShellUtil;
 
@@ -23,6 +24,7 @@ public class App extends Application {
         super.onCreate();
         context = this;
         Log.d(TAG, "onCreate: " + ShellUtil.init());
+        Toast.makeText(context, ShellUtil.getNetworkInterfaces().toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -87,7 +87,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
         public AppInfoViewHolder(View itemView) {
             super(itemView);
             icon = (ImageView) itemView.findViewById(R.id.item_app_information_icon);
-            label = (TextView) itemView.findViewById(R.id.item_app_information_package_name);
+            label = (TextView) itemView.findViewById(R.id.item_app_information_name);
         }
 
     }
