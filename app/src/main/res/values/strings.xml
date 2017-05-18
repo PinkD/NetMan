@@ -6,4 +6,10 @@
     <string name="package_name">moe.pinkd.neyman</string>
     <string name="version_code">1.0.1</string>
     <string name="all">All</string>
+    <string name="tips">1.dkl;ghnjkl;ashdngkl;sdahnl;ighnasd;lghn;asldghn;lasdjhg;asdhnglasdj\n2.hnasd;lghn;asldghn;lasdjhg;asdhnglasdj</string>
+    <string name="no_root">You don\'t have root permission</string>
+    <string name="test_root">Test root</string>
+    <string name="exit">Exit</string>
+    <string name="succeed">succeed</string>
+    <string name="fail">fail</string>
 </resources>

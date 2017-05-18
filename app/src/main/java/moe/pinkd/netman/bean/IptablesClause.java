@@ -10,6 +10,7 @@ import moe.pinkd.netman.config.Config;
  */
 
 public class IptablesClause {
+
     private int uid;
     private int mask;
     private boolean ban;
@@ -21,23 +22,26 @@ public class IptablesClause {
     }
 
     public IptablesClause(int uid, int mask) {
-        this.uid = uid;
-        this.mask = mask;
+        this(uid, mask, true);
     }
 
     @Nullable
     @Override
-    public String toString() {//TODO get network interfaces
+    public String toString() {
         char AorD = ban ? 'A' : 'D';
-        switch (mask) {
-            case Config.ALL_MASK:
-                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -j REJECT";
-            case Config.CELLULAR_MASK:
-                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -j REJECT";
-            case Config.WIFI_MASK:
-                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -j REJECT";
-            case Config.VPN_MASK:
-                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -j REJECT";
+        if ((mask & Config.ALL_MASK) == Config.ALL_MASK) {
+            return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -j REJECT";
+        } else {
+            if ((mask & Config.CELLULAR_MASK) == Config.CELLULAR_MASK) {
+                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -o " + Config.CELLULAR_INTERFACE + " -j REJECT";
+//                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -o rmnet0 -j REJECT";
+            }
+            if ((mask & Config.WIFI_MASK) == Config.WIFI_MASK) {
+                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -o wlan0  -j REJECT";
+            }
+            if (mask == Config.VPN_MASK) {
+                return "iptables -t filter -" + AorD + " net_man -m owner --uid-owner " + uid + " -o tun0  -j REJECT";
+            }
         }
         return null;
     }

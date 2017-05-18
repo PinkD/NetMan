@@ -6,5 +6,7 @@
     <color name="divide">#888</color>
     <color name="black">#000</color>
     <color name="white">#FFF</color>
+    <color name="gray">#AAA</color>
+    <color name="light_gray">#CCC</color>
     <color name="none">#0000</color>
 </resources>

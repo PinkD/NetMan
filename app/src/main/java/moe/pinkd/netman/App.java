@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import moe.pinkd.netman.util.SharedPreferenceUtil;
 import moe.pinkd.netman.util.ShellUtil;
 
 /**
@@ -23,8 +24,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        Log.d(TAG, "onCreate: " + ShellUtil.init());
-        Toast.makeText(context, ShellUtil.getNetworkInterfaces().toString(), Toast.LENGTH_SHORT).show();
+        if (SharedPreferenceUtil.loadCellularInterfaceName(this)) {//TODO move to detail activity
+            ShellUtil.initCellularInterfaces();
+        }
+        ShellUtil.init();
     }
 
     @Override

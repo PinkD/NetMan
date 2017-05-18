@@ -6,6 +6,7 @@ package moe.pinkd.netman.config;
  */
 
 public class Config {
+    public static String CELLULAR_INTERFACE;
     public static final int CELLULAR_MASK = 0x001;
     public static final int WIFI_MASK = 0x010;
     public static final int VPN_MASK = 0x100;
