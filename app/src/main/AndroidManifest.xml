@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="moe.pinkd.netman">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -20,6 +22,23 @@
         <activity android:name=".ui.activity.ReadMeActivity">
         </activity>
         <activity android:name=".ui.activity.NoRootActivity"/>
+
+        <receiver
+            android:name=".component.receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+
+                <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".component.service.RestoreIptablesRulesService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

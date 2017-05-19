@@ -12,4 +12,7 @@
     <string name="exit">Exit</string>
     <string name="succeed">succeed</string>
     <string name="fail">fail</string>
+    <string name="operation_done">operation done</string>
+    <string name="boot_notification_title">Restore Rules</string>
+    <string name="boot_notification_content">Click to restore iptables rules</string>
 </resources>

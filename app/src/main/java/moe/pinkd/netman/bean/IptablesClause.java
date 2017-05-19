@@ -25,6 +25,14 @@ public class IptablesClause {
         this(uid, mask, true);
     }
 
+    public int getUid() {
+        return uid;
+    }
+
+    public int getMask() {
+        return mask;
+    }
+
     @Nullable
     @Override
     public String toString() {

@@ -20,7 +20,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-//        test();
     }
 
     private void initView() {
@@ -37,13 +36,4 @@ public class MainActivity extends Activity {
         packageInfoAdapter.notifyDataSetChanged();
     }
 
-
-/*    private void test() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String s : ShellUtil.SURun(new String[]{"whoami", "ls -lah"})) {
-            stringBuilder.append(s);
-        }
-        recyclerView.setText(stringBuilder.toString());
-        recyclerView.setText(ShellUtil.shellRun("netstat -an"));
-    }*/
 }
