@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="moe.pinkd.netman.ui.activity.ReadMeActivity">
+
+    <include
+        android:id="@+id/readme_3"
+        layout="@layout/page_readme"
+        android:visibility="gone"
+        />
+
+    <include
+        android:id="@+id/readme_2"
+        layout="@layout/page_readme"
+        android:visibility="gone"
+        />
+
+    <include
+        android:id="@+id/readme_1"
+        layout="@layout/page_readme"
+        />
+
+
+</merge>
