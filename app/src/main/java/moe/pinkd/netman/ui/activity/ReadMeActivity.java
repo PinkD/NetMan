@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import moe.pinkd.netman.R;
+import moe.pinkd.netman.config.Config;
+import moe.pinkd.netman.util.SharedPreferenceUtil;
+import moe.pinkd.netman.util.ShellUtil;
 
 public class ReadMeActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "ReadMeActivity";
@@ -29,6 +32,11 @@ public class ReadMeActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SharedPreferenceUtil.loadCellularInterfaceName(this)) {
+            Log.d(TAG, "onAnimationEnd: startActivity");
+            startActivity(new Intent(ReadMeActivity.this, MainActivity.class));
+            finish();
+        }
         setContentView(R.layout.activity_readme);
         for (int i = 0; i < readmePages.length; i++) {
             readmePages[i] = (FrameLayout) findViewById(layoutIds[i]);
@@ -45,7 +53,22 @@ public class ReadMeActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         for (int i = 0; i < readmePages.length; i++) {
             if (readmePages[i].indexOfChild(v) > -1) {
-                Toast.makeText(this, buttonsText[i], Toast.LENGTH_SHORT).show();
+                switch (i) {
+                    case 0:
+                        break;
+                    case 1:
+//                        ShellUtil.initIptables();
+                        break;
+                    case 2:
+                        ShellUtil.initCellularInterfaces(this);
+                        if (Config.CELLULAR_INTERFACE == null) {
+                            Toast.makeText(this, "404", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            Toast.makeText(this, Config.CELLULAR_INTERFACE, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                }
                 viewPropertyAnimators[i].setListener(new TargetAnimatorListener(readmePages, i)).alpha(0).translationX(-readmePages[i].getMeasuredWidth()).setDuration(1000).start();
             }
         }

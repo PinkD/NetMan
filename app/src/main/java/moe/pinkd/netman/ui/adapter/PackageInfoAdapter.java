@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import moe.pinkd.netman.R;
+import moe.pinkd.netman.bean.AppStatus;
+import moe.pinkd.netman.config.Config;
 import moe.pinkd.netman.util.PackageUtil;
 
 /**
@@ -22,12 +25,22 @@ import moe.pinkd.netman.util.PackageUtil;
 public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.AppInfoViewHolder> {
     private static final String TAG = "PackageInfoAdapter";
 
-    private List<PackageInfo> packageInfos;
+    private List<AppStatus> appStatuses;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public PackageInfoAdapter(List<PackageInfo> packageInfos) {
-        this.packageInfos = packageInfos;
+
+    public PackageInfoAdapter(List<PackageInfo> packageInfos, int defaultMask) {
+        List<AppStatus> appStatuses = new ArrayList<>();
+        for (PackageInfo packageInfo : packageInfos) {
+            appStatuses.add(new AppStatus(packageInfo, defaultMask));
+        }
+        this.appStatuses = appStatuses;
+    }
+
+
+    public PackageInfoAdapter(List<AppStatus> appStatuses) {
+        this.appStatuses = appStatuses;
     }
 
     @Override
@@ -42,9 +55,12 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     private void bindContent(AppInfoViewHolder holder, int position) {
-        Log.d(TAG, "bindContent--->" + packageInfos.get(position).packageName + ": " + packageInfos.get(position).applicationInfo.uid);
-        holder.label.setText(PackageUtil.loadLabel(packageInfos.get(position)));
-        holder.icon.setImageDrawable(PackageUtil.loadIcon(packageInfos.get(position)));
+        Log.d(TAG, "bindContent--->" + appStatuses.get(position).getPackageInfo().packageName + ": " + appStatuses.get(position).getPackageInfo().applicationInfo.uid);
+        holder.label.setText(PackageUtil.loadLabel(appStatuses.get(position).getPackageInfo()));
+        if (appStatuses.get(position).getStatus() != Config.NONE_MASK) {
+            holder.label.setTextColor(holder.label.getContext().getResources().getColor(R.color.black));
+        }
+        holder.icon.setImageDrawable(PackageUtil.loadIcon(appStatuses.get(position).getPackageInfo()));
     }
 
     private void bindListener(final AppInfoViewHolder holder) {
@@ -66,18 +82,18 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
         }
     }
 
-    public List<PackageInfo> getItems() {
-        return packageInfos;
+    public List<AppStatus> getItems() {
+        return appStatuses;
     }
 
-    public PackageInfo getItemAt(int position) {
-        return packageInfos.get(position);
+    public AppStatus getItemAt(int position) {
+        return appStatuses.get(position);
     }
 
 
     @Override
     public int getItemCount() {
-        return packageInfos.size();
+        return appStatuses.size();
     }
 
     class AppInfoViewHolder extends RecyclerView.ViewHolder {

@@ -112,6 +112,8 @@ public class ShellUtil {
         }
         Pattern pattern = Pattern.compile("10(\\.[0-9]{1,3}){3}");
         String result = shellRun("ip addr | grep \"inet 10.\" | grep net");
+//        Pattern pattern = Pattern.compile("[0-9]{1,3}(\\.[0-9]{1,3}){3}");
+//        String result = shellRun("ip addr | grep \"inet \" | grep net");
         Log.d(TAG, "initCellularInterfaces: " + result);
         Matcher matcher = pattern.matcher(result);
         if (matcher.find()) {
@@ -119,6 +121,7 @@ public class ShellUtil {
             String[] tmp = result.split(" ");
             Log.d(TAG, "initCellularInterfaces: " + tmp[tmp.length - 1]);
             Config.CELLULAR_INTERFACE = tmp[tmp.length - 1];
+            SharedPreferenceUtil.saveCellularInterfaceName(context);
         }
     }
 
