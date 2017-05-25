@@ -5,6 +5,7 @@
       <w>ifconfig</w>
       <w>inet</w>
       <w>iptables</w>
+      <w>rmnet</w>
       <w>wlan</w>
     </words>
   </dictionary>

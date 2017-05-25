@@ -30,4 +30,12 @@ public class SharedPreferenceUtil {
     public static void restored(Context context) {
         context.getSharedPreferences("config", Context.MODE_PRIVATE).edit().putBoolean("restore", true).apply();
     }
+
+    public static void saveShowSystemApps(Context context, boolean save) {
+        context.getSharedPreferences("config", Context.MODE_PRIVATE).edit().putBoolean("showSystemApps", save).apply();
+    }
+
+    public static boolean getShowSystemApps(Context context) {
+        return context.getSharedPreferences("config", Context.MODE_PRIVATE).getBoolean("showSystemApps", false);
+    }
 }

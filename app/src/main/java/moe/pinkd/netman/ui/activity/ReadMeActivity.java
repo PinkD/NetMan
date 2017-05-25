@@ -57,7 +57,7 @@ public class ReadMeActivity extends Activity implements View.OnClickListener {
                     case 0:
                         break;
                     case 1:
-//                        ShellUtil.initIptables();
+                        ShellUtil.initIptables();
                         break;
                     case 2:
                         ShellUtil.initCellularInterfaces(this);

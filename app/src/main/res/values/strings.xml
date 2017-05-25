@@ -21,4 +21,6 @@
     <string name="boot_notification_content">Click to restore iptables rules</string>
     <string name="restore_process_title">Restoring Rules</string>
     <string name="app_not_found">app not found</string>
+    <string name="show_system_apps">show system apps</string>
+    <string name="modified_first">modified first</string>
 </resources>

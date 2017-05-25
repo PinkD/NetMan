@@ -1,5 +1,6 @@
 package moe.pinkd.netman.ui.adapter;
 
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,14 +34,21 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
-
+    private boolean showSystemApps;
+    private boolean modifiedFirst;
 
     public PackageInfoAdapter(List<PackageInfo> packageInfos, int defaultMask) {
         List<AppStatus> appStatuses = new ArrayList<>();
         for (PackageInfo packageInfo : packageInfos) {
-            appStatuses.add(new AppStatus(packageInfo, defaultMask));
+            if (packageInfo.applicationInfo.uid > 9999 && isSystemApp(packageInfo)) {
+                appStatuses.add(new AppStatus(packageInfo, defaultMask));
+            }
         }
         init(appStatuses);
+    }
+
+    private boolean isSystemApp(PackageInfo packageInfo) {
+        return showSystemApps || (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0;
     }
 
 
@@ -60,7 +68,14 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
             Integer tmp = record.get(appStatus.getPackageInfo().applicationInfo.uid);
             appStatus.setStatus(tmp == null ? 0 : tmp);
         }
-        Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
+        update();
+    }
+
+    private void update() {
+        Log.d(TAG, "update: ");
+        if (modifiedFirst) {
+            Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
+        }
         notifyDataSetChanged();
     }
 
@@ -76,6 +91,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     private void bindContent(AppInfoViewHolder holder, int position) {
+        Log.d(TAG, "bindContent: " + StatusUpdater.GLOBAL_APP_STATUS.get(position).getPackageInfo().applicationInfo.uid);
         holder.label.setText(PackageUtil.loadLabel(StatusUpdater.GLOBAL_APP_STATUS.get(position).getPackageInfo()));
         if (StatusUpdater.GLOBAL_APP_STATUS.get(position).getStatus() != Config.NONE_MASK) {
             holder.label.setTextColor(holder.label.getContext().getResources().getColor(R.color.colorAccent));
@@ -120,9 +136,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
 
     @Override
     public void update(Observable o, Object arg) {
-        Log.d(TAG, "update: ");
-        Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
-        notifyDataSetChanged();
+        update();
     }
 
     class AppInfoViewHolder extends RecyclerView.ViewHolder {
@@ -143,6 +157,25 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
 
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public boolean isShowSystemApps() {
+        return showSystemApps;
+    }
+
+    public void setShowSystemApps(boolean showSystemApps) {
+        this.showSystemApps = showSystemApps;
+    }
+
+    public boolean isModifiedFirst() {
+        return modifiedFirst;
+    }
+
+    public void setModifiedFirst(boolean modifiedFirst) {//// TODO: 2017/5/25 optional
+        if (this.modifiedFirst != modifiedFirst) {
+            this.modifiedFirst = modifiedFirst;
+            update();
+        }
     }
 
     public interface OnItemClickListener {

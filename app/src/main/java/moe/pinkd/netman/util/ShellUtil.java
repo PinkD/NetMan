@@ -112,10 +112,10 @@ public class ShellUtil {
         if (SharedPreferenceUtil.loadCellularInterfaceName(context)) {
             return;
         }
-        Pattern pattern = Pattern.compile("10(\\.[0-9]{1,3}){3}");
-        String result = shellRun("ip addr | grep \"inet 10.\" | grep net");
-//        Pattern pattern = Pattern.compile("[0-9]{1,3}(\\.[0-9]{1,3}){3}");
-//        String result = shellRun("ip addr | grep \"inet \" | grep net");
+//        Pattern pattern = Pattern.compile("10(\\.[0-9]{1,3}){3}");
+//        String result = shellRun("ip addr | grep \"inet 10.\" | grep net");
+        Pattern pattern = Pattern.compile("[0-9]{1,3}(\\.[0-9]{1,3}){3}");
+        String result = shellRun("ip addr | grep \"inet \" | grep rmnet");
         Log.d(TAG, "initCellularInterfaces: " + result);
         Matcher matcher = pattern.matcher(result);
         if (matcher.find()) {

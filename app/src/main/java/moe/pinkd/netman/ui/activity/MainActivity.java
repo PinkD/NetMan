@@ -1,11 +1,13 @@
 package moe.pinkd.netman.ui.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import moe.pinkd.netman.R;
 import moe.pinkd.netman.config.Config;
@@ -50,4 +52,22 @@ public class MainActivity extends Activity {
         packageInfoAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_show_system_apps:
+                break;
+            case R.id.action_modified_first:
+                break;
+        }
+        item.setChecked(!item.isChecked());
+        return super.onMenuItemSelected(featureId, item);
+    }
 }

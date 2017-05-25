@@ -4,4 +4,5 @@
     <dimen name="item_margin_default">8dp</dimen>
     <dimen name="detail_height">72dp</dimen>
     <dimen name="detail_text_size">18sp</dimen>
+    <dimen name="status_bar_title_bar__height">80dp</dimen>
 </resources>
