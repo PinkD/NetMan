@@ -69,7 +69,7 @@ public class ShellUtil {
     }
 
 
-    public static void banApp(int uid, int status) {
+    public static void banApp(Context context, int uid, int status) {
         clearTableWithUid(uid);
         List<IptablesClause> commands = new ArrayList<>();
         if ((status & Config.ALL_MASK) == Config.ALL_MASK) {
@@ -78,6 +78,7 @@ public class ShellUtil {
             commands.add(iptablesClause);
             DatabaseUtil.writeRecord(iptablesClause);
             SURun(iptablesClause.toString());
+            SharedPreferenceUtil.setNeedRestore(context);
             return;
         }
         if ((status & Config.CELLULAR_MASK) != 0) {
@@ -96,6 +97,7 @@ public class ShellUtil {
             DatabaseUtil.writeRecord(command);
             SURun(command.toString());
         }
+        SharedPreferenceUtil.setNeedRestore(context);
     }
 
     private static void clearTableWithUid(int uid) {
@@ -164,12 +166,16 @@ public class ShellUtil {
     }
 
     public static void restoreRules(Context context) {
+        if (ruleExists()) {
+            Log.d(TAG, "restoreRules: return");
+            return;
+        }
+        Log.d(TAG, "restoreRules: restore");
         init(context);
         DatabaseUtil.init(context);
         Map<Integer, Integer> record = DatabaseUtil.readRecord();
         List<IptablesClause> iptablesClauses = new ArrayList<>();
         for (Integer uid : record.keySet()) {
-            clearTableWithUid(uid);//To avoid repetition
             iptablesClauses.add(new IptablesClause(uid, record.get(uid)));
         }
         SURun(iptablesClauses);

@@ -1,5 +1,9 @@
 package moe.pinkd.netman.config;
 
+import java.util.List;
+
+import moe.pinkd.netman.bean.AppStatus;
+
 /**
  * Created by PinkD on 2017/5/13.
  * Config

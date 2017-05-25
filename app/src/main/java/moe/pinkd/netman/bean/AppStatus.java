@@ -2,15 +2,16 @@ package moe.pinkd.netman.bean;
 
 import android.content.pm.PackageInfo;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 /**
  * Created by PinkD on 2017/5/24.
  * AppStatus
  */
 
-public class AppStatus implements Parcelable, Comparable<AppStatus> {
+public class AppStatus implements Comparable<AppStatus> {
+    private static final String TAG = "AppStatus";
     private PackageInfo packageInfo;
     private int status;
 
@@ -41,30 +42,24 @@ public class AppStatus implements Parcelable, Comparable<AppStatus> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AppStatus) {
+            AppStatus tmp = (AppStatus) obj;
+            boolean equal = (packageInfo.applicationInfo.uid == tmp.getPackageInfo().applicationInfo.uid) && (status == tmp.getStatus());
+            if (equal) {
+                Log.d(TAG, "equal");
+            } else {
+                Log.d(TAG, "not equal");
+            }
+            return equal;
+        } else {
+            Log.d(TAG, "not equal");
+            return false;
+        }
+    }
+
+    @Override
     public int compareTo(@NonNull AppStatus appStatus) {
-        return status - appStatus.getStatus();
-    }
-
-    public static final Creator<AppStatus> CREATOR = new Creator<AppStatus>() {
-        @Override
-        public AppStatus createFromParcel(Parcel in) {
-            return new AppStatus(in);
-        }
-
-        @Override
-        public AppStatus[] newArray(int size) {
-            return new AppStatus[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return hashCode();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(packageInfo, flags);
-        dest.writeInt(status);
+        return appStatus.getStatus() - status;
     }
 }

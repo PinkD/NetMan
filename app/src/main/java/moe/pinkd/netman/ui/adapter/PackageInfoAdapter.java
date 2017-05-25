@@ -10,22 +10,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import moe.pinkd.netman.R;
 import moe.pinkd.netman.bean.AppStatus;
 import moe.pinkd.netman.config.Config;
+import moe.pinkd.netman.util.DatabaseUtil;
 import moe.pinkd.netman.util.PackageUtil;
+import moe.pinkd.netman.util.StatusUpdater;
 
 /**
  * Created by PinkD on 2017/5/12.
  * Application Information Adapter
  */
 
-public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.AppInfoViewHolder> {
+public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.AppInfoViewHolder> implements Observer {
     private static final String TAG = "PackageInfoAdapter";
 
-    private List<AppStatus> appStatuses;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
@@ -35,12 +40,28 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
         for (PackageInfo packageInfo : packageInfos) {
             appStatuses.add(new AppStatus(packageInfo, defaultMask));
         }
-        this.appStatuses = appStatuses;
+        init(appStatuses);
     }
 
 
     public PackageInfoAdapter(List<AppStatus> appStatuses) {
-        this.appStatuses = appStatuses;
+        init(appStatuses);
+    }
+
+    private void init(List<AppStatus> appStatuses) {
+        StatusUpdater.GLOBAL_APP_STATUS = appStatuses;
+        readFromDatabase();
+        StatusUpdater.addStatusUpdate(this);
+    }
+
+    private void readFromDatabase() {
+        Map<Integer, Integer> record = DatabaseUtil.readRecord();
+        for (AppStatus appStatus : StatusUpdater.GLOBAL_APP_STATUS) {
+            Integer tmp = record.get(appStatus.getPackageInfo().applicationInfo.uid);
+            appStatus.setStatus(tmp == null ? 0 : tmp);
+        }
+        Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -55,12 +76,13 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     private void bindContent(AppInfoViewHolder holder, int position) {
-        Log.d(TAG, "bindContent--->" + appStatuses.get(position).getPackageInfo().packageName + ": " + appStatuses.get(position).getPackageInfo().applicationInfo.uid);
-        holder.label.setText(PackageUtil.loadLabel(appStatuses.get(position).getPackageInfo()));
-        if (appStatuses.get(position).getStatus() != Config.NONE_MASK) {
+        holder.label.setText(PackageUtil.loadLabel(StatusUpdater.GLOBAL_APP_STATUS.get(position).getPackageInfo()));
+        if (StatusUpdater.GLOBAL_APP_STATUS.get(position).getStatus() != Config.NONE_MASK) {
+            holder.label.setTextColor(holder.label.getContext().getResources().getColor(R.color.colorAccent));
+        } else {
             holder.label.setTextColor(holder.label.getContext().getResources().getColor(R.color.black));
         }
-        holder.icon.setImageDrawable(PackageUtil.loadIcon(appStatuses.get(position).getPackageInfo()));
+        holder.icon.setImageDrawable(PackageUtil.loadIcon(StatusUpdater.GLOBAL_APP_STATUS.get(position).getPackageInfo()));
     }
 
     private void bindListener(final AppInfoViewHolder holder) {
@@ -83,17 +105,24 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     public List<AppStatus> getItems() {
-        return appStatuses;
+        return StatusUpdater.GLOBAL_APP_STATUS;
     }
 
     public AppStatus getItemAt(int position) {
-        return appStatuses.get(position);
+        return StatusUpdater.GLOBAL_APP_STATUS.get(position);
     }
 
 
     @Override
     public int getItemCount() {
-        return appStatuses.size();
+        return StatusUpdater.GLOBAL_APP_STATUS.size();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Log.d(TAG, "update: ");
+        Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
+        notifyDataSetChanged();
     }
 
     class AppInfoViewHolder extends RecyclerView.ViewHolder {

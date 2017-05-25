@@ -30,7 +30,7 @@ public class BootReceiver extends BroadcastReceiver {
         Notification.Builder build = new Notification.Builder(context)
                 .setContentTitle(context.getText(R.string.boot_notification_title))
                 .setContentText(context.getText(R.string.boot_notification_content))
-                .setSmallIcon(R.drawable.ic_wifi)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(PendingIntent.getService(context, R.string.app_name, new Intent(context, RestoreIptablesRulesService.class).setAction(RestoreIptablesRulesService.ACTION_RESTORE_IPTABLES_RULES), PendingIntent.FLAG_UPDATE_CURRENT));
 
         Notification notification;

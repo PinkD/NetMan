@@ -2,22 +2,28 @@ package moe.pinkd.netman.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import moe.pinkd.netman.R;
 import moe.pinkd.netman.bean.AppStatus;
 import moe.pinkd.netman.config.Config;
 import moe.pinkd.netman.util.PackageUtil;
 import moe.pinkd.netman.util.ShellUtil;
+import moe.pinkd.netman.util.StatusUpdater;
 
 public class DetailActivity extends Activity implements CompoundButton.OnCheckedChangeListener {
+    private static final String TAG = "DetailActivity";
+
     private Switch all;
     private Switch cellular;
     private Switch wifi;
     private Switch vpn;
+    private int index;
     private AppStatus appStatus;
 
     @Override
@@ -28,7 +34,14 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
     }
 
     private void initView() {
-        appStatus = getIntent().getParcelableExtra("appInfo");
+        index = getIntent().getIntExtra("index", -1);
+        if (index < 0) {
+            Toast.makeText(this, R.string.app_not_found, Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        } else {
+            appStatus = StatusUpdater.GLOBAL_APP_STATUS.get(index);
+        }
         ImageView icon = (ImageView) findViewById(R.id.detail_app_icon);
         TextView name = (TextView) findViewById(R.id.detail_app_name);
         TextView packageName = (TextView) findViewById(R.id.detail_app_package_name);
@@ -41,10 +54,33 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
         cellular = (Switch) findViewById(R.id.detail_permission_cellular_switch);
         wifi = (Switch) findViewById(R.id.detail_permission_wifi_switch);
         vpn = (Switch) findViewById(R.id.detail_permission_vpn_switch);
+        initCheckStatus();
         all.setOnCheckedChangeListener(this);
         cellular.setOnCheckedChangeListener(this);
         wifi.setOnCheckedChangeListener(this);
         vpn.setOnCheckedChangeListener(this);
+    }
+
+    private void initCheckStatus() {
+        int status = appStatus.getStatus();
+        if ((status & Config.ALL_MASK) == Config.ALL_MASK) {
+            Log.d(TAG, "banApp: ALL_MASK");
+            enableAll();
+            all.setChecked(true);
+            return;
+        }
+        if ((status & Config.CELLULAR_MASK) == Config.CELLULAR_MASK) {
+            Log.d(TAG, "banApp: CELLULAR_MASK");
+            cellular.setChecked(true);
+        }
+        if ((status & Config.WIFI_MASK) == Config.WIFI_MASK) {
+            Log.d(TAG, "banApp: WIFI_MASK");
+            wifi.setChecked(true);
+        }
+        if ((status & Config.VPN_MASK) == Config.VPN_MASK) {
+            Log.d(TAG, "banApp: VPN_MASK");
+            vpn.setChecked(true);
+        }
     }
 
     @Override
@@ -53,7 +89,9 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
         if (buttonView.getId() == all.getId()) {
             if (all.isChecked()) {
                 enableAll();
-                ShellUtil.banApp(appStatus.getPackageInfo().applicationInfo.uid, Config.ALL_MASK);
+                ShellUtil.banApp(this, appStatus.getPackageInfo().applicationInfo.uid, Config.ALL_MASK);
+                appStatus.setStatus(Config.ALL_MASK);
+                StatusUpdater.notifyStatusUpdate();
                 return;
             } else {
                 disableAll();
@@ -68,7 +106,9 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
         if (vpn.isChecked()) {
             status |= Config.VPN_MASK;
         }
-        ShellUtil.banApp(appStatus.getPackageInfo().applicationInfo.uid, status);
+        appStatus.setStatus(status);
+        ShellUtil.banApp(this, appStatus.getPackageInfo().applicationInfo.uid, status);
+        StatusUpdater.notifyStatusUpdate();
     }
 
     private void enableAll() {
