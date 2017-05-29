@@ -5,8 +5,8 @@
         android:checkable="true"
         android:title="@string/show_system_apps"
         />
-    <item
+<!--    <item
         android:id="@+id/action_pay_pinkd_now"
         android:title="@string/pay_pinkd_now"
-        />
+        />-->
 </menu>

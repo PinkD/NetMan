@@ -28,8 +28,8 @@ public class BootReceiver extends BroadcastReceiver {
 
     private Notification createNotification(Context context) {
         Notification.Builder build = new Notification.Builder(context)
-                .setContentTitle(context.getText(R.string.boot_notification_title))
-                .setContentText(context.getText(R.string.boot_notification_content))
+                .setContentTitle(context.getText(R.string.restore_rules))
+                .setContentText(context.getText(R.string.click_to_restore))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(PendingIntent.getService(context, R.string.app_name, new Intent(context, RestoreIptablesRulesService.class).setAction(RestoreIptablesRulesService.ACTION_RESTORE_IPTABLES_RULES), PendingIntent.FLAG_UPDATE_CURRENT));
 

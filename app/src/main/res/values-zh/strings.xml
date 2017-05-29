@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_not_found">程序未找到</string>
-    <string name="boot_notification_content">点击重新载入规则</string>
-    <string name="boot_notification_title">重新载入规则</string>
+    <string name="click_to_restore">点击重新载入规则</string>
+    <string name="restore_rules">重新载入规则</string>
     <string name="cellular">数据</string>
     <string name="exit">退出</string>
     <string name="fail">失败</string>
@@ -17,4 +17,6 @@
     <string name="tip_3">不同的设备数据接口名字可能会不同，请打开数据后点击`获取接口名`按钮</string>
     <string name="show_system_apps">显示系统程序</string>
     <string name="pay_pinkd_now">捐赠</string>
+    <string name="restore_process_title">正在重新载入规则</string>
+    <string name="all">全部</string>
 </resources>
