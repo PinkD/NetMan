@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_not_found">程序未找到</string>
+    <string name="boot_notification_content">点击重新载入规则</string>
+    <string name="boot_notification_title">重新载入规则</string>
+    <string name="cellular">数据</string>
+    <string name="exit">退出</string>
+    <string name="fail">失败</string>
+    <string name="get_cellular">获取数据接口名</string>
+    <string name="get_it">我知道了</string>
+    <string name="no_root">未获得root授权</string>
+    <string name="operation_done">操作完成</string>
+    <string name="succeed">成功</string>
+    <string name="test_root">检测root</string>
+    <string name="tip_1">这是一个用来阻止应用联网的app，基于iptables，因此需要root权限。</string>
+    <string name="tip_2">为了使用iptables，需要先检测root权限</string>
+    <string name="tip_3">不同的设备数据接口名字可能会不同，请打开数据后点击`获取接口名`按钮</string>
+    <string name="show_system_apps">显示系统程序</string>
+    <string name="pay_pinkd_now">捐赠</string>
+</resources>

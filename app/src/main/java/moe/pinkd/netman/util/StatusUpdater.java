@@ -1,5 +1,6 @@
 package moe.pinkd.netman.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,7 +14,7 @@ import moe.pinkd.netman.bean.AppStatus;
 
 public class StatusUpdater {
 
-    public static List<AppStatus> GLOBAL_APP_STATUS;
+    public static List<AppStatus> GLOBAL_APP_STATUS = new ArrayList<>();
     private static StatusObservable statusObservable = new StatusObservable();
 
     public static void addStatusUpdate(Observer observer) {
@@ -31,18 +32,14 @@ public class StatusUpdater {
     private static class StatusObservable extends Observable {
         @Override
         public void notifyObservers(Object arg) {
-            if (GLOBAL_APP_STATUS != null) {
-                setChanged();
-                super.notifyObservers(arg);
-            }
+            setChanged();
+            super.notifyObservers(arg);
         }
 
         @Override
         public void notifyObservers() {
-            if (GLOBAL_APP_STATUS != null) {
-                setChanged();
-                super.notifyObservers();
-            }
+            setChanged();
+            super.notifyObservers();
         }
     }
 

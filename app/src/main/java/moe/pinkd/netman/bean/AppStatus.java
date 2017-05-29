@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import moe.pinkd.netman.config.Config;
+
 /**
  * Created by PinkD on 2017/5/24.
  * AppStatus
@@ -18,6 +20,10 @@ public class AppStatus implements Comparable<AppStatus> {
     public AppStatus(PackageInfo packageInfo, int status) {
         this.packageInfo = packageInfo;
         this.status = status;
+    }
+    public AppStatus(PackageInfo packageInfo) {
+        this.packageInfo = packageInfo;
+        this.status = Config.NONE_MASK;
     }
 
     protected AppStatus(Parcel in) {

@@ -17,11 +17,13 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import moe.pinkd.netman.App;
 import moe.pinkd.netman.R;
 import moe.pinkd.netman.bean.AppStatus;
 import moe.pinkd.netman.config.Config;
 import moe.pinkd.netman.util.DatabaseUtil;
 import moe.pinkd.netman.util.PackageUtil;
+import moe.pinkd.netman.util.SharedPreferenceUtil;
 import moe.pinkd.netman.util.StatusUpdater;
 
 /**
@@ -35,13 +37,18 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
     private boolean showSystemApps;
-    private boolean modifiedFirst;
 
-    public PackageInfoAdapter(List<PackageInfo> packageInfos, int defaultMask) {
+    public PackageInfoAdapter() {
+        showSystemApps = SharedPreferenceUtil.getShowSystemApps(App.getContext());
+        loadList();
+    }
+
+    private void loadList() {
         List<AppStatus> appStatuses = new ArrayList<>();
+        List<PackageInfo> packageInfos = PackageUtil.getPackageInfo();
         for (PackageInfo packageInfo : packageInfos) {
             if (packageInfo.applicationInfo.uid > 9999 && isSystemApp(packageInfo)) {
-                appStatuses.add(new AppStatus(packageInfo, defaultMask));
+                appStatuses.add(new AppStatus(packageInfo));
             }
         }
         init(appStatuses);
@@ -52,12 +59,8 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
 
-    public PackageInfoAdapter(List<AppStatus> appStatuses) {
-        init(appStatuses);
-    }
-
     private void init(List<AppStatus> appStatuses) {
-        StatusUpdater.GLOBAL_APP_STATUS = appStatuses;
+        StatusUpdater.GLOBAL_APP_STATUS.addAll(appStatuses);
         readFromDatabase();
         StatusUpdater.addStatusUpdate(this);
     }
@@ -73,9 +76,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
 
     private void update() {
         Log.d(TAG, "update: ");
-        if (modifiedFirst) {
-            Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
-        }
+        Collections.sort(StatusUpdater.GLOBAL_APP_STATUS);
         notifyDataSetChanged();
     }
 
@@ -164,17 +165,12 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     public void setShowSystemApps(boolean showSystemApps) {
-        this.showSystemApps = showSystemApps;
-    }
-
-    public boolean isModifiedFirst() {
-        return modifiedFirst;
-    }
-
-    public void setModifiedFirst(boolean modifiedFirst) {//// TODO: 2017/5/25 optional
-        if (this.modifiedFirst != modifiedFirst) {
-            this.modifiedFirst = modifiedFirst;
-            update();
+        if (this.showSystemApps != showSystemApps) {
+            this.showSystemApps = showSystemApps;
+            StatusUpdater.GLOBAL_APP_STATUS.clear();
+            loadList();
+            SharedPreferenceUtil.saveShowSystemApps(App.getContext(), showSystemApps);
+            Log.d(TAG, "setShowSystemApps: update");
         }
     }
 

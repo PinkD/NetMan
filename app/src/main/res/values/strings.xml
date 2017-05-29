@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">NetMan</string>
-    <string name="wifi">WIFI</string>
+    <string name="app_name" translatable="false">NetMan</string>
+    <string name="wifi" translatable="false">WIFI</string>
     <string name="cellular">Cellular</string>
-    <string name="vpn">VPN</string>
-    <string name="package_name">moe.pinkd.neyman</string>
-    <string name="version_code">1.0.1</string>
+    <string name="vpn" translatable="false">VPN</string>
+    <string name="package_name" translatable="false">moe.pinkd.neyman</string>
+    <string name="version_code" translatable="false">1.0.1</string>
     <string name="all">All</string>
     <string name="tip_1">This app is to prevent some app from connecting to network with `iptables`. So root permission is  needed to modify your `iptables`</string>
     <string name="tip_2">To manage your network with `iptables`, you must get root permission, so try it now</string>
-    <string name="tip_3">Different devices have different cellular interface name, so what\'s yours?</string>
+    <string name="tip_3">Different devices have different cellular interface name. Turn on your cellular and click `get cellular`</string>
     <string name="no_root">You haven\'t got root permission</string>
     <string name="get_it">Get it</string>
     <string name="test_root">Test root</string>
@@ -22,5 +22,5 @@
     <string name="restore_process_title">Restoring Rules</string>
     <string name="app_not_found">app not found</string>
     <string name="show_system_apps">show system apps</string>
-    <string name="modified_first">modified first</string>
+    <string name="pay_pinkd_now">pay pinkd now</string>
 </resources>
