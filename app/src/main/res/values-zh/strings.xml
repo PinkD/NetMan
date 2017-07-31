@@ -19,4 +19,10 @@
     <string name="pay_pinkd_now">捐赠</string>
     <string name="restore_process_title">正在重新载入规则</string>
     <string name="all">全部</string>
+    <string name="version_code_text">版本号</string>
+    <string name="donation">捐赠</string>
+    <string name="about_this_app">关于这个应用</string>
+    <string name="about_license">开源协议</string>
+    <string name="about_developer">关于开发者</string>
+    <string name="about">关于</string>
 </resources>

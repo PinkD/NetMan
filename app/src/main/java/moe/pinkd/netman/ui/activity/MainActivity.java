@@ -68,8 +68,9 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "onMenuItemSelected: action_show_system_apps-->" + item.isChecked());
                 packageInfoAdapter.setShowSystemApps(item.isChecked());
                 break;
-//            case R.id.action_pay_pinkd_now:
-//                break;
+            case R.id.action_about:
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                break;
         }
         return true;
     }

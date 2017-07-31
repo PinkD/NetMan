@@ -26,10 +26,8 @@
 
         <receiver
             android:name=".component.receiver.BootReceiver"
-            android:directBootAware="true"
             android:enabled="true"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
@@ -41,6 +39,9 @@
         <service
             android:name=".component.service.RestoreIptablesRulesService"
             android:exported="false"/>
+
+        <activity android:name=".ui.activity.AboutActivity">
+        </activity>
     </application>
 
 </manifest>

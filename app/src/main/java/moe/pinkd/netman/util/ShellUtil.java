@@ -29,6 +29,8 @@ import moe.pinkd.netman.ui.activity.NoRootActivity;
 
 public class ShellUtil {
     private static final String TAG = "ShellUtil";
+    private static final boolean SKIP_ROOT = true;
+    private static final boolean SKIP_CELLULAR = true;
 
     private static void SURun(List<IptablesClause> iptablesClauses) {
         String[] clauses = new String[iptablesClauses.size()];
@@ -45,7 +47,9 @@ public class ShellUtil {
         if (Shell.SU.available()) {
             Log.d(TAG, "SURun: " + Shell.SU.run(commands));
         } else {
-            App.getContext().startActivity(new Intent(App.getContext(), NoRootActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            if (!SKIP_ROOT) {
+                App.getContext().startActivity(new Intent(App.getContext(), NoRootActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
             Log.d(TAG, "SURun: []");
         }
     }
@@ -57,7 +61,9 @@ public class ShellUtil {
             Log.d(TAG, "SURun: " + result);
             return result;
         } else {
-            App.getContext().startActivity(new Intent(App.getContext(), NoRootActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            if (!SKIP_ROOT) {
+                App.getContext().startActivity(new Intent(App.getContext(), NoRootActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
             Log.d(TAG, "SURun: []");
             return new ArrayList<>();
         }
@@ -114,8 +120,9 @@ public class ShellUtil {
         }
 //        Pattern pattern = Pattern.compile("10(\\.[0-9]{1,3}){3}");
 //        String result = shellRun("ip addr | grep \"inet 10.\" | grep net");
+
         Pattern pattern = Pattern.compile("[0-9]{1,3}(\\.[0-9]{1,3}){3}");
-        String result = shellRun("ip addr | grep \"inet \" | grep rmnet");
+        String result = SKIP_CELLULAR ? "eth0 10.0.0.172" : shellRun("ip addr | grep \"inet \" | grep rmnet");
         Log.d(TAG, "initCellularInterfaces: " + result);
         Matcher matcher = pattern.matcher(result);
         if (matcher.find()) {
