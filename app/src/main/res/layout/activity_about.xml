@@ -78,21 +78,6 @@
             android:text="@string/about_this_app"
             />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/divide"/>
-
-        <TextView
-            android:id="@+id/open_source_license"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_default"
-            android:background="@drawable/text_selector"
-            android:gravity="center_vertical"
-            android:padding="@dimen/item_margin_default"
-            android:text="@string/about_license"
-            />
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -25,4 +25,6 @@
     <string name="about_license">开源协议</string>
     <string name="about_developer">关于开发者</string>
     <string name="about">关于</string>
+    <string name="copied">已复制</string>
+    <string name="ali_pay">支付宝</string>
 </resources>
