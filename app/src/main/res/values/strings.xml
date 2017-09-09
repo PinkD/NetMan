@@ -8,7 +8,7 @@
     <string name="all">All</string>
     <string name="tip_1">This app is to prevent some app from connecting to network with `iptables`. So root permission is  needed to modify your `iptables`</string>
     <string name="tip_2">To manage your network with `iptables`, you must get root permission, so try it now</string>
-    <string name="tip_3">Different devices have different cellular interface name. Turn on your cellular and click `get cellular`</string>
+    <string name="tip_3">Different devices have different cellular interface name(commonly `rmnet0`). Turn on your cellular and click `get cellular`</string>
     <string name="no_root">You haven\'t got root permission</string>
     <string name="get_it">Get it</string>
     <string name="test_root">Test root</string>
@@ -24,7 +24,7 @@
     <string name="show_system_apps">show system apps</string>
     <string name="about">about</string>
     <string name="donation">Donation</string>
-    <string name="pay_pinkd_now">pay pinkd now</string>
+    <string name="pay_pinkd_now">If you like this App, pay pinkd now\n(lol)</string>
     <string name="about_developer">About developer</string>
     <string name="about_this_app">About this app</string>
     <string name="about_license">License</string>

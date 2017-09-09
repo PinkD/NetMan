@@ -3,6 +3,7 @@ package moe.pinkd.netman.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,7 +16,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import eu.chainfire.libsuperuser.Shell;
 import moe.pinkd.netman.App;
 import moe.pinkd.netman.R;
 import moe.pinkd.netman.bean.IptablesClause;
@@ -29,8 +29,27 @@ import moe.pinkd.netman.ui.activity.NoRootActivity;
 
 public class ShellUtil {
     private static final String TAG = "ShellUtil";
-    private static final boolean SKIP_ROOT = true;
-    private static final boolean SKIP_CELLULAR = true;
+    private static final String SU = "su";
+    private static final String _C = "-c";
+    private static final String ID = "id";
+    private static final String UID_EQUALS_0 = "id=0";
+    private static final String ERROR = "ERROR";
+    private static final boolean SKIP_ROOT = false;
+    private static final boolean SKIP_CELLULAR = false;
+    private static boolean isRoot;
+    private static String param;
+
+    private static boolean rootAvailable() {
+        if (isRoot) {
+            return true;
+        }
+        String result = ShellUtil.shellRun(SU, _C, ID);
+        if (result.contains(UID_EQUALS_0)) {
+            isRoot = true;
+            param = _C;
+        }
+        return isRoot;
+    }
 
     private static void SURun(List<IptablesClause> iptablesClauses) {
         String[] clauses = new String[iptablesClauses.size()];
@@ -40,32 +59,31 @@ public class ShellUtil {
         SURun(clauses);
     }
 
-    public static void SURun(String[] commands) {
+    @Nullable
+    public static List<String> SURun(String[] commands) {
+        List<String> result = new ArrayList<>(commands.length);
+        String line;
         for (String command : commands) {
-            Log.d(TAG, "SURun: " + command);
-        }
-        if (Shell.SU.available()) {
-            Log.d(TAG, "SURun: " + Shell.SU.run(commands));
-        } else {
-            if (!SKIP_ROOT) {
-                App.getContext().startActivity(new Intent(App.getContext(), NoRootActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            line = SURun(command);
+            if (ERROR.equals(line)) {
+                return null;
+            } else {
+                result.add(line);
             }
-            Log.d(TAG, "SURun: []");
         }
+        return result;
     }
 
-    public static List<String> SURun(String command) {
-        Log.d(TAG, "SURun: " + command);
-        if (Shell.SU.available()) {
-            List<String> result = Shell.SU.run(command);
-            Log.d(TAG, "SURun: " + result);
+    public static String SURun(String command) throws RootNotAvailableException {
+        if (rootAvailable()) {
+            String result = shellRun(SU, param, command);
+            Log.d(TAG, "SURun: " + command + " ---> " + result);
             return result;
         } else {
             if (!SKIP_ROOT) {
                 App.getContext().startActivity(new Intent(App.getContext(), NoRootActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
-            Log.d(TAG, "SURun: []");
-            return new ArrayList<>();
+            return ERROR;
         }
     }
 
@@ -135,11 +153,9 @@ public class ShellUtil {
     }
 
     private static boolean ruleExists() {
-        for (String line : SURun("iptables -t filter -L")) {
-            if (line.contains("net_man")) {
-                Log.d(TAG, "initIptables: Chain net_man exists");
-                return true;
-            }
+        if (SURun("iptables -t filter -L").contains("net_man")) {
+            Log.d(TAG, "initIptables: Chain net_man exists");
+            return true;
         }
         return false;
     }
@@ -154,22 +170,27 @@ public class ShellUtil {
         }
     }
 
-    public static String shellRun(String command) {
+    public static String shellRun(String shell, String param, String command) {
         Runtime runtime = Runtime.getRuntime();
         Log.d(TAG, "shellRun: " + command);
         try {
-            java.lang.Process process = runtime.exec(new String[]{"/system/bin/sh", "-c", command});
+            java.lang.Process process = runtime.exec(new String[]{shell, param, command});
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String tmp;
             StringBuilder stringBuilder = new StringBuilder();
             while ((tmp = bufferedReader.readLine()) != null) {
                 stringBuilder.append(tmp);
             }
+            process.destroy();
             return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "error";
+    }
+
+    public static String shellRun(String command) {
+        return shellRun("/system/bin/sh", "-c", command);
     }
 
     public static void restoreRules(Context context) {
@@ -187,6 +208,12 @@ public class ShellUtil {
         }
         SURun(iptablesClauses);
         Toast.makeText(context, R.string.operation_done, Toast.LENGTH_SHORT).show();
+    }
+
+    private static class RootNotAvailableException extends RuntimeException {
+        public RootNotAvailableException(String message) {
+            super(message);
+        }
     }
 
 }
