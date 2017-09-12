@@ -70,6 +70,7 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
         for (AppStatus appStatus : StatusUpdater.GLOBAL_APP_STATUS) {
             Integer tmp = record.get(appStatus.getPackageInfo().applicationInfo.uid);
             appStatus.setStatus(tmp == null ? 0 : tmp);
+            Log.d(TAG, "readFromDatabase: " + appStatus.getPackageInfo().applicationInfo.packageName + " ---> " + appStatus.getStatus());
         }
         update();
     }
@@ -92,7 +93,6 @@ public class PackageInfoAdapter extends RecyclerView.Adapter<PackageInfoAdapter.
     }
 
     private void bindContent(AppInfoViewHolder holder, int position) {
-        Log.d(TAG, "bindContent: " + StatusUpdater.GLOBAL_APP_STATUS.get(position).getPackageInfo().applicationInfo.uid);
         holder.label.setText(PackageUtil.loadLabel(StatusUpdater.GLOBAL_APP_STATUS.get(position).getPackageInfo()));
         if (StatusUpdater.GLOBAL_APP_STATUS.get(position).getStatus() != Config.NONE_MASK) {
             holder.label.setTextColor(holder.label.getContext().getResources().getColor(R.color.colorAccent));

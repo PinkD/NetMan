@@ -34,4 +34,5 @@
     <string name="ali_pay">Alipay</string>
     <string name="ali_pay_address" translatable="false">1724102580@qq.com</string>
     <string name="copied">copied</string>
+    <string name="waiting">waiting</string>
 </resources>

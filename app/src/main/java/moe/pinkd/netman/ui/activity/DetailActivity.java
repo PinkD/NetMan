@@ -1,6 +1,7 @@
 package moe.pinkd.netman.ui.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
@@ -15,6 +16,7 @@ import moe.pinkd.netman.config.Config;
 import moe.pinkd.netman.util.PackageUtil;
 import moe.pinkd.netman.util.ShellUtil;
 import moe.pinkd.netman.util.StatusUpdater;
+import moe.pinkd.netman.util.UISyncUtil;
 
 public class DetailActivity extends Activity implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "DetailActivity";
@@ -25,6 +27,9 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
     private Switch vpn;
     private int index;
     private AppStatus appStatus;
+    private UISyncUtil.Callback callback;
+    private ProgressDialog progressDialog;
+    private Runnable task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +94,7 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
         if (buttonView.getId() == all.getId()) {
             if (all.isChecked()) {
                 enableAll();
-                ShellUtil.banApp(this, appStatus.getPackageInfo().applicationInfo.uid, Config.ALL_MASK);
-                appStatus.setStatus(Config.ALL_MASK);
-                StatusUpdater.notifyStatusUpdate();
+                switchStatusInBackground(Config.ALL_MASK);
                 return;
             } else {
                 disableAll();
@@ -106,9 +109,42 @@ public class DetailActivity extends Activity implements CompoundButton.OnChecked
         if (vpn.isChecked()) {
             status |= Config.VPN_MASK;
         }
-        appStatus.setStatus(status);
-        ShellUtil.banApp(this, appStatus.getPackageInfo().applicationInfo.uid, status);
-        StatusUpdater.notifyStatusUpdate();
+        switchStatusInBackground(status);
+    }
+
+    private void switchStatusInBackground(final int status) {
+        if (progressDialog == null) {
+            progressDialog = ProgressDialog.show(DetailActivity.this, null, getText(R.string.waiting));
+        } else {
+            progressDialog.show();
+        }
+        if (callback == null) {
+            task = new Runnable() {
+                @Override
+                public void run() {
+                    ShellUtil.banApp(DetailActivity.this, appStatus.getPackageInfo().applicationInfo.uid, status);
+                }
+            };
+            callback = new UISyncUtil.Callback(new Runnable() {
+                @Override
+                public void run() {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    appStatus.setStatus(status);
+                    StatusUpdater.notifyStatusUpdate();
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    Toast.makeText(DetailActivity.this, R.string.fail, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        UISyncUtil.runInBackground(task, callback);
     }
 
     private void enableAll() {
